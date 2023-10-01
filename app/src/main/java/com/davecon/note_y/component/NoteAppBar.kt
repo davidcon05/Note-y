@@ -13,6 +13,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,10 +25,10 @@ fun NoteAppBar() {
         exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
     val isCollapsed = remember { derivedStateOf { scrollBehavior.state.collapsedFraction > 0.5 } }
 
-    val topAppBarElementColor = if (isCollapsed.value) {
+    val titleTextColor = if (isCollapsed.value) {
         MaterialTheme.colorScheme.onSurface
     } else {
-        MaterialTheme.colorScheme.onPrimary
+        MaterialTheme.colorScheme.onSurface
     }
 
     val topAppBarAlignText = if (isCollapsed.value) {
@@ -55,7 +56,9 @@ fun NoteAppBar() {
         //navigationIcon =
         //actions = { AboutActionIcon()}
         colors = TopAppBarDefaults.largeTopAppBarColors(
-            scrolledContainerColor = MaterialTheme.colorScheme.surface,
+            scrolledContainerColor = Color(0xFFEFC822),
+            containerColor = Color(0xFFEFC822),
+            titleContentColor = titleTextColor,
         ),
         scrollBehavior = scrollBehavior
     )

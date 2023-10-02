@@ -12,21 +12,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.davecon.note_y.component.FABAddButton
-import com.davecon.note_y.component.NoteAppBar
 import com.davecon.note_y.component.NoteCard
-import com.davecon.note_y.component.NoteyOutlinedTextField
+import com.davecon.note_y.component.NoteyAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteScreen() {
     Scaffold(
         topBar = {
-           NoteAppBar()
+           NoteyAppBar()
         }) { _ ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 136.dp),
+                .padding(top = 80.dp),
         ) {
             CreateNoteScreen()
         }
@@ -34,7 +33,7 @@ fun NoteScreen() {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 8.dp),
+                .padding(bottom = 32.dp),
             verticalArrangement = Arrangement.Bottom
         ) {
             item {

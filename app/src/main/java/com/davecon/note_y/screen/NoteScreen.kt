@@ -28,7 +28,7 @@ fun NoteScreen() {
                 .fillMaxSize()
                 .padding(top = 136.dp),
         ) {
-            NoteyOutlinedTextField("Enter Note", width = 440, height = 256)
+            CreateNoteScreen()
         }
 
         LazyColumn(

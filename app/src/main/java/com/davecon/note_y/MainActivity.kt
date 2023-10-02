@@ -35,6 +35,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     NoteyTheme {
-        Text("Words are here")
+        NoteScreen()
     }
 }

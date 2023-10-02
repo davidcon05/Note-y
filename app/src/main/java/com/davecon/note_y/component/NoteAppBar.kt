@@ -37,7 +37,7 @@ fun NoteAppBar() {
         TextAlign.Start
     }
 
-    val collapsedTextSize = 18
+    val collapsedTextSize = 24
     val expandedTextSize = 48
     val topAppBarTextSize =
         (collapsedTextSize + (expandedTextSize - collapsedTextSize) * (1 - scrollBehavior.state.collapsedFraction)).sp

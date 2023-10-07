@@ -7,6 +7,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.tooling.preview.Preview
@@ -14,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.davecon.note_y.component.NoteyOutlinedTextField
 import com.davecon.note_y.component.TitleEntryTextField
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Preview(showBackground = true)
 @Composable
 fun CreateNoteScreen() {
@@ -23,7 +25,7 @@ fun CreateNoteScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        TitleEntryTextField()
+        TitleEntryTextField(width = 440)
         NoteyOutlinedTextField("Enter Note",width = 440, height = 256)
         Button(
             modifier = Modifier.padding(16.dp).shadow(16.dp),

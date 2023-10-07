@@ -1,4 +1,6 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class,
+    ExperimentalMaterial3Api::class
+)
 
 package com.davecon.note_y.component
 
@@ -20,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.ImeAction
@@ -39,13 +43,16 @@ import com.davecon.note_y.R
 
 @ExperimentalComposeUiApi
 @Composable
-fun TitleEntryTextField() {
+fun TitleEntryTextField(width: Int = 0) {
     val keyboardController = LocalSoftwareKeyboardController.current
-    var value by remember { mutableStateOf("") }
+    var title by remember { mutableStateOf("") }
 
     TextField(
-        value = value,
-        onValueChange = { inputText -> value = inputText },
+        modifier = Modifier
+            .width(width.dp)
+            .padding(16.dp),
+        value = title,
+        onValueChange = { inputText -> title = inputText },
         label = { Text("Title") },
         placeholder = { Text("Enter Title") },
         keyboardOptions = KeyboardOptions.Default.copy(
@@ -56,34 +63,33 @@ fun TitleEntryTextField() {
             onDone = {
                 keyboardController?.hide()
             }
-        )
+        ),
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = Color.White
+        ),
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteyOutlinedTextField(prompt: String? = null, height: Int? = null, width: Int?) {
+fun NoteyOutlinedTextField(prompt: String? = null, height: Int = 200, width: Int = 200) {
     var text by remember { mutableStateOf(TextFieldValue("")) }
-    if (height != null) {
-        if (width != null) {
-            OutlinedTextField(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .width(width.dp)
-                    .height(height.dp),
-                value = text,
-                label = {
-                    if (prompt != null) {
-                        Text(text = prompt)
-                    }
-                },
-                onValueChange = {
-                    text = it
-                },
-                shape = MaterialTheme.shapes.large,
-            )
-        }
-    }
+    OutlinedTextField(
+        modifier = Modifier
+            .padding(16.dp)
+            .width(width.dp)
+            .height(height.dp),
+        value = text,
+        label = {
+            if (prompt != null) {
+                Text(text = prompt)
+            }
+        },
+        onValueChange = { input ->
+            text = input
+        },
+        shape = MaterialTheme.shapes.large,
+    )
 }
 
 @Composable

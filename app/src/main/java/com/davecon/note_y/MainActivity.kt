@@ -19,13 +19,22 @@ class MainActivity : ComponentActivity() {
         setContent {
             NoteyTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    NoteScreen()
+                NoteyApp {
+                    // We pass NoteScreen in App, hmm... this makes it the entry point
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun NoteyApp(content: @Composable () -> Unit) {
+    NoteyTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            NoteScreen()
         }
     }
 }
@@ -35,6 +44,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     NoteyTheme {
-        NoteScreen()
+        NoteyApp {
+        }
     }
 }

@@ -18,6 +18,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/**
+ * This is a custom [TopAppBar] that is used in the [NoteScreen]. It is a [LargeTopAppBar] that
+ * has a custom [scrollBehavior] that allows the app bar to collapse when the user scrolls down.
+ * This implementation requires the use of [rememberTopAppBarState] to track the state of the
+ * app bar. Making it better to implement with view model or DI.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteAppBar() {

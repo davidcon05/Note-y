@@ -1,16 +1,12 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class,
-    ExperimentalMaterial3Api::class
-)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 
 package com.davecon.note_y.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -24,71 +20,75 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.davecon.note_y.R
-
-@ExperimentalComposeUiApi
-@Composable
-fun TitleEntryTextField(width: Int = 0) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    var title by remember { mutableStateOf("") }
-
-    TextField(
-        modifier = Modifier
-            .width(width.dp)
-            .padding(16.dp),
-        value = title,
-        onValueChange = { inputText -> title = inputText },
-        label = { Text("Title") },
-        placeholder = { Text("Enter Title") },
-        keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Done,
-            keyboardType = KeyboardType.Text
-        ),
-        keyboardActions = KeyboardActions(
-            onDone = {
-                keyboardController?.hide()
-            }
-        ),
-        colors = TextFieldDefaults.textFieldColors(
-            containerColor = Color.White
-        ),
-    )
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteyOutlinedTextField(prompt: String? = null, height: Int = 200, width: Int = 200) {
-    var text by remember { mutableStateOf(TextFieldValue("")) }
+fun InputTextField(
+    modifier: Modifier = Modifier,
+    titleState: MutableState<String>,
+    labelId: String,
+    enabled: Boolean = true,
+    isSingleLine: Boolean = true,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction = ImeAction.Next,
+    onAction: KeyboardActions = KeyboardActions.Default,
+) {
+    TextField(
+        value = titleState.value,
+        onValueChange = { newValue -> titleState.value = newValue },
+        label = { Text(labelId) },
+        enabled = enabled,
+        textStyle = TextStyle(
+            fontSize = 24.sp,
+            color = MaterialTheme.colorScheme.onBackground
+        ),
+        colors = TextFieldDefaults.textFieldColors(
+            textColor = colorResource(id = R.color.black),
+            containerColor = colorResource(id = R.color.white),
+        ),
+        singleLine = isSingleLine,
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
+        keyboardActions = onAction,
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun NoteyOutlinedTextField(
+    modifier: Modifier = Modifier,
+    textState: MutableState<String>,
+    labelId: String,
+    enabled: Boolean = true,
+    isSingleLine: Boolean = true,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction = ImeAction.Next,
+    onAction: KeyboardActions = KeyboardActions.Default,
+) {
     OutlinedTextField(
-        modifier = Modifier
-            .padding(16.dp)
-            .width(width.dp)
-            .height(height.dp),
-        value = text,
-        label = {
-            if (prompt != null) {
-                Text(text = prompt)
-            }
-        },
-        onValueChange = { input ->
-            text = input
-        },
-        shape = MaterialTheme.shapes.large,
+        value = textState.value,
+        onValueChange = { newValue -> textState.value = newValue },
+        label = { Text(labelId) },
+        enabled = enabled,
+        textStyle = TextStyle(
+            fontSize = 24.sp,
+            color = MaterialTheme.colorScheme.onBackground
+        ),
+        singleLine = isSingleLine,
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
+        keyboardActions = onAction,
+        modifier = modifier,
     )
 }
 

@@ -11,6 +11,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,11 +21,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -37,17 +38,19 @@ import com.davecon.note_y.R
 @Composable
 fun InputTextField(
     modifier: Modifier = Modifier,
-    titleState: MutableState<String>,
+    titleState: String,
     labelId: String,
     enabled: Boolean = true,
     isSingleLine: Boolean = true,
     keyboardType: KeyboardType = KeyboardType.Text,
-    imeAction: ImeAction = ImeAction.Next,
-    onAction: KeyboardActions = KeyboardActions.Default,
+    onImeAction: () -> Unit,
+    onTextChange: (String) -> Unit = {},
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     TextField(
-        value = titleState.value,
-        onValueChange = { newValue -> titleState.value = newValue },
+        value = titleState,
+        onValueChange = onTextChange,
         label = { Text(labelId) },
         enabled = enabled,
         textStyle = TextStyle(
@@ -59,8 +62,11 @@ fun InputTextField(
             containerColor = colorResource(id = R.color.white),
         ),
         singleLine = isSingleLine,
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
-        keyboardActions = onAction,
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = ImeAction.Done),
+        keyboardActions = KeyboardActions(onDone = {
+            onImeAction()
+            keyboardController?.hide()
+        }),
         modifier = modifier,
     )
 }
@@ -68,17 +74,19 @@ fun InputTextField(
 @Composable
 fun NoteyOutlinedTextField(
     modifier: Modifier = Modifier,
-    textState: MutableState<String>,
+    textState: String,
     labelId: String,
     enabled: Boolean = true,
     isSingleLine: Boolean = true,
     keyboardType: KeyboardType = KeyboardType.Text,
-    imeAction: ImeAction = ImeAction.Next,
-    onAction: KeyboardActions = KeyboardActions.Default,
+    onImeAction: () -> Unit = {},
+    onTextChange: (String) -> Unit = {},
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     OutlinedTextField(
-        value = textState.value,
-        onValueChange = { newValue -> textState.value = newValue },
+        value = textState,
+        onValueChange = onTextChange,
         label = { Text(labelId) },
         enabled = enabled,
         textStyle = TextStyle(
@@ -86,10 +94,25 @@ fun NoteyOutlinedTextField(
             color = MaterialTheme.colorScheme.onBackground
         ),
         singleLine = isSingleLine,
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
-        keyboardActions = onAction,
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = ImeAction.Done),
+        keyboardActions = KeyboardActions(onDone = {
+            onImeAction()
+            keyboardController?.hide()
+        }),
         modifier = modifier,
     )
+}
+@Composable
+fun SaveButton(
+    modifier: Modifier = Modifier,
+    buttonLabel: String,
+    onClick: () -> Unit = {},
+) {
+    Button(
+        modifier = Modifier,
+        onClick = { onClick }) {
+        Text(text = buttonLabel)
+    }
 }
 
 @Composable

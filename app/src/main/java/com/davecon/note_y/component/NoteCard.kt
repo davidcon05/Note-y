@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -27,10 +29,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.davecon.note_y.data.NoteDataSource
+import com.davecon.note_y.model.Note
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteCard(noteTitle: String, note: String, date: String) {
+fun NoteCard(notes: List<Note>) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -57,29 +61,10 @@ fun NoteCard(noteTitle: String, note: String, date: String) {
                 .padding(8.dp),
             color = Color.White
         ) {
-            Column(
-                modifier = Modifier
-                    .padding(2.dp)
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.Start
-            ) {
-                Text(
-                    text = "test title 1",
-                    fontWeight = FontWeight.Bold,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-
-                Text(
-                    text = "test note message 1 that is super long so that it ensures we only its limited to one line",
-                    style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-
-                Text("test date of note", style = MaterialTheme.typography.labelSmall, maxLines = 1)
+            LazyColumn(Modifier.padding(top = 400.dp)) {
+                items(notes) { note ->
+                    Text(text = note.title)
+                }
             }
         }
     }
@@ -88,5 +73,5 @@ fun NoteCard(noteTitle: String, note: String, date: String) {
 @Preview(showBackground = true)
 @Composable
 fun NoteCardPreview() {
-    NoteCard("title", "note message 1", "date of note")
+NoteCard(notes = NoteDataSource().loadNotes())
 }

@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,9 +18,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             NoteyTheme {
                 // A surface container using the 'background' color from the theme
-                NoteyApp {
-                    // We pass NoteScreen in App, hmm... this makes it the entry point
-                }
+                NoteScreen(onAddNote = {}, onRemoveNote = {}, notes = listOf())
             }
         }
     }
@@ -34,7 +31,7 @@ fun NoteyApp(content: @Composable () -> Unit) {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            NoteScreen()
+            NoteScreen(onAddNote = {}, onRemoveNote = {}, notes = listOf())
         }
     }
 }

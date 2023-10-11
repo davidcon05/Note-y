@@ -57,8 +57,7 @@ fun NoteCard(note: Note) {
             /* TODO */
         }
     ) {
-        // TODO: This should display a single note, we call it from NoteScreen.kt
-        // The lazycolumn should be in NoteScreen.kt, this should just be a card
+
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
@@ -82,7 +81,7 @@ fun NoteCard(note: Note) {
     }
 }
 
-fun formatLocalDateTime(localDateTime: LocalDateTime): String {
+private fun formatLocalDateTime(localDateTime: LocalDateTime): String {
     val formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy")
     return localDateTime.format(formatter)
 }

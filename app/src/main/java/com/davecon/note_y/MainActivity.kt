@@ -18,7 +18,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             NoteyTheme {
                 // A surface container using the 'background' color from the theme
-                NoteScreen(onAddNote = {}, onRemoveNote = {}, notes = listOf())
+                NoteyApp {
+                }
             }
         }
     }

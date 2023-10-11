@@ -1,13 +1,9 @@
 package com.davecon.note_y.component
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
@@ -19,25 +15,31 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.davecon.note_y.data.NoteDataSource
 import com.davecon.note_y.model.Note
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
+@Composable
+fun Notes(notes: List<Note>) {
+    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+        items(notes) { note ->
+            NoteCard(note = note)
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteCard(notes: List<Note>) {
+fun NoteCard(note: Note) {
     Card(
         modifier = Modifier
-            .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
         colors = CardDefaults.cardColors(
             contentColor = Color.Black,
@@ -55,23 +57,44 @@ fun NoteCard(notes: List<Note>) {
             /* TODO */
         }
     ) {
+        // TODO: This should display a single note, we call it from NoteScreen.kt
+        // The lazycolumn should be in NoteScreen.kt, this should just be a card
         Surface(
             modifier = Modifier
+                .fillMaxWidth()
                 .border(1.dp, Color.Black, RoundedCornerShape(corner = CornerSize(12.dp)))
                 .padding(8.dp),
             color = Color.White
         ) {
-            LazyColumn(Modifier.padding(top = 400.dp)) {
-                items(notes) { note ->
-                    Text(text = note.title)
-                }
+            Column {
+
+                Text(text = note.title, color = Color.Black, fontWeight = FontWeight.Bold)
+
+                Text(text = note.content, maxLines = 1, overflow = TextOverflow.Ellipsis)
+
+                Text(
+                    text = formatLocalDateTime(note.entryDate),
+                    color = Color.Gray,
+                    style = MaterialTheme.typography.labelSmall
+                )
             }
         }
     }
 }
 
+fun formatLocalDateTime(localDateTime: LocalDateTime): String {
+    val formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy")
+    return localDateTime.format(formatter)
+}
+
 @Preview(showBackground = true)
 @Composable
 fun NoteCardPreview() {
-NoteCard(notes = NoteDataSource().loadNotes())
+    NoteCard(note = NoteDataSource().loadNotes()[0])
+}
+
+@Preview(showBackground = true)
+@Composable
+fun NotePreview() {
+    Notes(notes = NoteDataSource().loadNotes())
 }

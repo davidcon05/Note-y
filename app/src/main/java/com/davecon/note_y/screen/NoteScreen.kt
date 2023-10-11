@@ -1,5 +1,6 @@
 package com.davecon.note_y.screen
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,11 +27,14 @@ import androidx.compose.ui.unit.dp
 import com.davecon.note_y.component.FABAddButton
 import com.davecon.note_y.component.InputTextField
 import com.davecon.note_y.component.NoteCard
+import com.davecon.note_y.component.Notes
 import com.davecon.note_y.component.NoteyAppBar
 import com.davecon.note_y.component.NoteyOutlinedTextField
 import com.davecon.note_y.component.SaveButton
 import com.davecon.note_y.data.NoteDataSource
 import com.davecon.note_y.model.Note
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,7 +53,7 @@ fun NoteScreen(
     ) { _ ->
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(top = 56.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -103,8 +107,9 @@ fun NoteScreen(
                 }
 
             } // End save Button
-            Divider(modifier = Modifier.padding(16.dp))
-            NoteCard(notes = notes)
+            Divider(modifier = Modifier.padding(16.dp).shadow(16.dp))
+
+            Notes(notes = NoteDataSource().loadNotes())
 
 
         } // End Column
@@ -112,7 +117,7 @@ fun NoteScreen(
 
     } // End Content
 
-    //FABAddButton()
+    FABAddButton()
 } // End NoteScreen
 
 @Preview(showBackground = true)

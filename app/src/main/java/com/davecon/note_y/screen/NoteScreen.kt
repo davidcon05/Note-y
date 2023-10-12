@@ -1,18 +1,13 @@
 package com.davecon.note_y.screen
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,15 +21,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.davecon.note_y.component.FABAddButton
 import com.davecon.note_y.component.InputTextField
-import com.davecon.note_y.component.NoteCard
 import com.davecon.note_y.component.Notes
 import com.davecon.note_y.component.NoteyAppBar
 import com.davecon.note_y.component.NoteyOutlinedTextField
 import com.davecon.note_y.component.SaveButton
 import com.davecon.note_y.data.NoteDataSource
 import com.davecon.note_y.model.Note
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -116,8 +108,8 @@ fun NoteScreen(
 
 
     } // End Content
-
-    FABAddButton()
+        // TODO: Tap to reveal note input fields
+    //FABAddButton()
 } // End NoteScreen
 
 @Preview(showBackground = true)

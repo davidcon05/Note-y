@@ -125,9 +125,9 @@ fun FABAddButton() {
         IconButton(
             modifier = Modifier
                 .padding(8.dp)
-                .size(64.dp) // Adjust the size of the IconButton here
+                .size(64.dp)
                 .shadow(24.dp),
-            onClick = { /*TODO*/ },
+            onClick = { /* TODO */ },
         ) {
             Icon(
                 modifier = Modifier.size(64.dp), // Adjust the size of the Icon here

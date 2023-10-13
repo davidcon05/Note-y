@@ -1,5 +1,6 @@
 package com.davecon.note_y.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -16,10 +17,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.davecon.note_y.component.FABAddButton
 import com.davecon.note_y.component.InputTextField
 import com.davecon.note_y.component.Notes
 import com.davecon.note_y.component.NoteyAppBar
@@ -37,6 +38,7 @@ fun NoteScreen(
 ) {
     var noteTitle by remember { mutableStateOf("") }
     var noteContent by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -87,21 +89,17 @@ fun NoteScreen(
             ) {
                 if (noteTitle.isNotEmpty() && noteContent.isNotEmpty()) {
                     // save and add to list
-                    onAddNote(
-                        Note(
-                            title = noteTitle,
-                            content = noteContent,
-                        )
-                    )
+                    onAddNote(Note(title = noteTitle, content = noteContent))
                     // clear fields
                     noteTitle = ""
                     noteContent = ""
+                    Toast.makeText(context, "Note saved", Toast.LENGTH_SHORT).show()
                 }
 
             } // End save Button
             Divider(modifier = Modifier.padding(16.dp).shadow(16.dp))
 
-            Notes(notes = NoteDataSource().loadNotes())
+            Notes(notes = notes, onRemoveNote = {onRemoveNote(it)})
 
 
         } // End Column

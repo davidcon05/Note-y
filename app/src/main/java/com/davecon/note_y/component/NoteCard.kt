@@ -27,17 +27,18 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun Notes(notes: List<Note>) {
+fun Notes(notes: List<Note>, removeNote: (Note) -> Unit = {}, onRemoveNote: (Note) -> Unit) {
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
         items(notes) { note ->
-            NoteCard(note = note)
+            //TODO: Change note click to open note in a new screen, add a delete button
+            NoteCard(note = note, { removeNote(note) })
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteCard(note: Note) {
+fun NoteCard(note: Note, removeNote: (Note) -> Unit) {
     Card(
         modifier = Modifier
             .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
@@ -54,7 +55,7 @@ fun NoteCard(note: Note) {
             disabledElevation = 0.dp,
         ),
         onClick = {
-            /* TODO */
+            removeNote(note)
         }
     ) {
 
@@ -88,12 +89,6 @@ private fun formatLocalDateTime(localDateTime: LocalDateTime): String {
 
 @Preview(showBackground = true)
 @Composable
-fun NoteCardPreview() {
-    NoteCard(note = NoteDataSource().loadNotes()[0])
-}
-
-@Preview(showBackground = true)
-@Composable
 fun NotePreview() {
-    Notes(notes = NoteDataSource().loadNotes())
+    Notes(notes = NoteDataSource().loadNotes(), onRemoveNote = { })
 }
